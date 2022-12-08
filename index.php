@@ -14,7 +14,11 @@
   </head>
   <body>
     <container class="container">
-      <form class="m-2">
+      <form 
+        class="m-2"
+        action="controle\avaliacaocontrole.php?op=salvar"
+        method="post"
+        >
         <div class="form-group">
 
           <label
@@ -28,7 +32,7 @@
               O título contempla a proposta do projeto.
             </p>
           </label>
-          <select class="titulo form-control w-50">
+          <select class="titulo form-control w-50" id='titulo'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
     echo "<option value=" . $index . '> ' . $index . ' </option>';
@@ -49,7 +53,7 @@ for ($index = 0; $index <= 10; $index++) {
                 O projeto apresenta viabilidade para a necessidade apresentada pela empresa.
                 </p>
             </label>
-            <select class="viabilidade form-control w-50">
+            <select class="viabilidade form-control w-50" id='viabilidade'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
     echo "<option value=" . $index . '> ' . $index . ' </option>';
@@ -72,7 +76,7 @@ for ($index = 0; $index <= 10; $index++) {
   Capacidade do projeto de ser replicado em diferentes áreas/regiões.
   </p>
 </label>
-<select class="replicabilidade form-control w-50">
+<select class="replicabilidade form-control w-50" id='replicabilidade'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
     echo "<option value=" . $index . '> ' . $index . ' </option>';
@@ -85,7 +89,7 @@ for ($index = 0; $index <= 10; $index++) {
 <div class="form-group">
 
 <label
-  for="titulo"
+  for="inovacao"
   data-toggle="popover"
   data-trigger="focus"
   data-content="0 a 1"
@@ -95,7 +99,7 @@ for ($index = 0; $index <= 10; $index++) {
   "Inovação é algo diferente que exerce impacto", ou seja, o projeto deve consistir em algo diferente/novo, ainda não incorporado aos processos gerenciais, produtos ou serviços, e que gerará resultados para os clientes, para a organização ou para as partes interessadas.
   </p>
 </label>
-<select class="titulo form-control w-50">
+<select class="inovacao form-control w-50" id='inovacao'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
     echo "<option value=" . $index . '> ' . $index . ' </option>';
@@ -107,7 +111,7 @@ for ($index = 0; $index <= 10; $index++) {
 <div class="form-group">
 
 <label
-  for="titulo"
+  for="apresentacao"
   data-toggle="popover"
   data-trigger="focus"
   data-content="0 a 1"
@@ -120,7 +124,7 @@ for ($index = 0; $index <= 10; $index++) {
      (c) e inovação do projeto.
   </p>
 </label>
-<select class="titulo form-control w-50">
+<select class="apresentacao form-control w-50" id='apresentacao'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
     echo "<option value=" . $index . '> ' . $index . ' </option>';
@@ -132,7 +136,7 @@ for ($index = 0; $index <= 10; $index++) {
 <div class="form-group">
 
 <label
-  for="titulo"
+  for="exibicao"
   data-toggle="popover"
   data-trigger="focus"
   data-content="0 a 1"
@@ -142,7 +146,7 @@ for ($index = 0; $index <= 10; $index++) {
   A exibição visual deverá ser clara e objetiva, salientando os dados mais importantes para possibilitar o perfeito entendimento do projeto, utilizando preferencialmente recursos de informática.
     </p>
 </label>
-<select class="titulo form-control w-50">
+<select class="exibicao form-control w-50" id='exibicao'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
     echo "<option value=" . $index . '> ' . $index . ' </option>';
@@ -153,7 +157,7 @@ for ($index = 0; $index <= 10; $index++) {
 
 <div class="form-group">
     <label for="observacao"><h5>Anotações / Observações</h5></label>
-    <textarea class="form-control w-75" id="observacao" rows="3"></textarea>
+    <textarea class="observacao form-control w-75" id="observacao" rows="3"></textarea>
   </div>
 
         <button type="submit" class="btn btn-primary">Salvar Avalição</button>
