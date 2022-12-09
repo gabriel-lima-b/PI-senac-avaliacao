@@ -11,14 +11,49 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" style="border-bottom: 0.3rem solid rgb(247 125 12);">
+  <a class="navbar-brand" href="index.php">
+    <img src="imagens/senac_logo_new.png" width="175px" height="65px" alt="">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse ml-2" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Listar Avaliações</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
     <container class="container">
+    <div class="row">
+                <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
       <form 
         class="m-2"
         action="controle\avaliacaocontrole.php?op=salvar"
         method="post"
         >
+        <div class="form-row mb-3">
+          <div class="col">
+            <label for="nome-equipe"><h5>Nome equipe:</h5></label>
+            <input type="text" class="form-control" id="nome-equipe" placeholder="Nome Equipe">
+          </div>
+    
+          <div class="col">
+            <label for="nome-projeto"><h5>Nome projeto:</h5></label>
+            <input type="text" class="form-control" id="nome-projeto" placeholder="Nome Projeto">
+          </div>
+        </div>
         <div class="form-group">
 
           <label
@@ -32,10 +67,10 @@
               O título contempla a proposta do projeto.
             </p>
           </label>
-          <select class="titulo form-control w-50" id='titulo'>
+          <select class="titulo form-control " id='titulo'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
-    echo "<option value=" . $index . '> ' . $index . ' </option>';
+  echo "<option value=" . $index . '> ' . $index . ' </option>';
 }
 ?>
             </select>
@@ -53,10 +88,10 @@ for ($index = 0; $index <= 10; $index++) {
                 O projeto apresenta viabilidade para a necessidade apresentada pela empresa.
                 </p>
             </label>
-            <select class="viabilidade form-control w-50" id='viabilidade'>
+            <select class="viabilidade form-control " id='viabilidade'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
-    echo "<option value=" . $index . '> ' . $index . ' </option>';
+  echo "<option value=" . $index . '> ' . $index . ' </option>';
 }
 ?>
             </select>
@@ -76,10 +111,10 @@ for ($index = 0; $index <= 10; $index++) {
   Capacidade do projeto de ser replicado em diferentes áreas/regiões.
   </p>
 </label>
-<select class="replicabilidade form-control w-50" id='replicabilidade'>
+<select class="replicabilidade form-control " id='replicabilidade'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
-    echo "<option value=" . $index . '> ' . $index . ' </option>';
+  echo "<option value=" . $index . '> ' . $index . ' </option>';
 }
 ?>
   </select>
@@ -99,10 +134,10 @@ for ($index = 0; $index <= 10; $index++) {
   "Inovação é algo diferente que exerce impacto", ou seja, o projeto deve consistir em algo diferente/novo, ainda não incorporado aos processos gerenciais, produtos ou serviços, e que gerará resultados para os clientes, para a organização ou para as partes interessadas.
   </p>
 </label>
-<select class="inovacao form-control w-50" id='inovacao'>
+<select class="inovacao form-control " id='inovacao'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
-    echo "<option value=" . $index . '> ' . $index . ' </option>';
+  echo "<option value=" . $index . '> ' . $index . ' </option>';
 }
 ?>
   </select>
@@ -124,10 +159,10 @@ for ($index = 0; $index <= 10; $index++) {
      (c) e inovação do projeto.
   </p>
 </label>
-<select class="apresentacao form-control w-50" id='apresentacao'>
+<select class="apresentacao form-control " id='apresentacao'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
-    echo "<option value=" . $index . '> ' . $index . ' </option>';
+  echo "<option value=" . $index . '> ' . $index . ' </option>';
 }
 ?>
   </select>
@@ -146,10 +181,10 @@ for ($index = 0; $index <= 10; $index++) {
   A exibição visual deverá ser clara e objetiva, salientando os dados mais importantes para possibilitar o perfeito entendimento do projeto, utilizando preferencialmente recursos de informática.
     </p>
 </label>
-<select class="exibicao form-control w-50" id='exibicao'>
+<select class="exibicao form-control " id='exibicao'>
 <?php
 for ($index = 0; $index <= 10; $index++) {
-    echo "<option value=" . $index . '> ' . $index . ' </option>';
+  echo "<option value=" . $index . '> ' . $index . ' </option>';
 }
 ?>
   </select>
@@ -157,11 +192,13 @@ for ($index = 0; $index <= 10; $index++) {
 
 <div class="form-group">
     <label for="observacao"><h5>Anotações / Observações</h5></label>
-    <textarea class="observacao form-control w-75" id="observacao" rows="3"></textarea>
+    <textarea class="observacao form-control" id="observacao" rows="3"></textarea>
   </div>
 
-        <button type="submit" class="btn btn-primary">Salvar Avalição</button>
+        <button type="submit" class="btn btn-primary" style="background-color: rgb(247 125 12); border-color:rgb(247 125 12);">Salvar Avalição</button>
       </form>
+</div>
+</div>
 
     </container>
   </body>
