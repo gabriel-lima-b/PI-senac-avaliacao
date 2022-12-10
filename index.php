@@ -28,7 +28,7 @@
         <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Listar Avaliações</a>
+        <a class="nav-link" href="controle/avaliacaocontrole.php?op=listar">Listar Avaliações</a>
       </li>
     </ul>
   </div>

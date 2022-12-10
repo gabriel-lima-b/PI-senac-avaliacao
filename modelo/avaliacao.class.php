@@ -2,6 +2,8 @@
 class Avaliacao
 {
 
+    private $nomeEquipe;
+    private $nomeProjeto;
     private $titulo;
     private $viabilidade;
     private $replicabilidade;
@@ -45,7 +47,9 @@ class Avaliacao
     }
     public function __toString()
     {
-        return '<br> Titulo: ' . $this->titulo .
+        return '<br> Nome da Equipe: ' . $this->nomeEquipe .
+            '<br> Nome do Projeto: ' . $this->nomeProjeto .
+            '<br> Titulo: ' . $this->titulo .
             '<br> Viabilidade: ' . $this->viabilidade .
             '<br> Replicabilidade: ' . $this->replicabilidade .
             '<br> Inovação: ' . $this->inovacao .
