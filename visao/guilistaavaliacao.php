@@ -37,14 +37,14 @@
 </nav>
 
 <?php
-if (isset($_SESSION['avaliacao'])) {
-    include_once '../modelo/avaliacao.class.php';
-    $avaliacao = array();
-    $avaliacao = unserialize($_SESSION['avaliacao']);
+if (isset($_SESSION['avaliacoes'])) {
+  include_once '../modelo/avaliacao.class.php';
+  $avaliacoes = array();
+  $avaliacoes = unserialize($_SESSION['avaliacoes']);
 }
 
-foreach ($avaliacao as $a) {
-    echo '<p>' . $a->__toString() . '</p>';
+foreach ($avaliacoes as $a) {
+  echo '<p>' . $a->__toString() . '</p>';
 }
 ?>
 

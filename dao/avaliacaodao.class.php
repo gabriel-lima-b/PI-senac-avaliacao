@@ -40,7 +40,7 @@ class AvaliacaoDao
         } //fecha o catch
     } //fecha o método cadastrarUsuario
 
-    public function buscarAvaliação()
+    public function buscarAvaliacao()
     {
         try {
             $stat = $this->conexao->query("select * from avaliacao");

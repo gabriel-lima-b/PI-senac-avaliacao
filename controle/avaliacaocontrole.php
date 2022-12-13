@@ -9,18 +9,22 @@ if (isset($_GET['op'])) {
     switch ($_GET['op']) {
 
         case 'salvar':
-            if (isset($_POST['titulo']) &&
+            var_dump($_GET['op']);
+            var_dump($_POST['nomeEquipe']);
+            if (
+            isset($_POST['nomeEquipe']) &&
+            isset($_POST['nomeProjeto']) &&
+            isset($_POST['titulo']) &&
             isset($_POST['viabilidade']) &&
             isset($_POST['replicabilidade']) &&
             isset($_POST['inovacao']) &&
             isset($_POST['apresentacao']) &&
             isset($_POST['exibicao']) &&
-            isset($_POST['nome-equipe']) &&
-            isset($_POST['nome-projeto']) &&
             isset($_POST['observacao'])) {
+                var_dump($_POST['nomeEquipe']);
 
-                $nomeEquipe = $_POST["nome-equipe"];
-                $nomeProjeto = $_POST["nome-projeto"];
+                $nomeEquipe = $_POST["nomeEquipe"];
+                $nomeProjeto = $_POST["nomeProjeto"];
                 $titulo = $_POST['titulo'];
                 $viabilidade = $_POST['viabilidade'];
                 $replicabilidade = $_POST['replicabilidade'];
@@ -47,11 +51,20 @@ if (isset($_GET['op'])) {
 
                 $_SESSION['msg'] = 'Avaliação Cadastrado!';
                 $_SESSION['avaliacao'] = serialize($avaliacao);
-                header("location:../visao/guilistaavaliacao.php");
+                header("location:../visao/guiresposta.php");
 
             }
             break;
 
+        case 'listar':
+            $aDAO = new AvaliacaoDao();
+            $array = array();
+            $array = $aDAO->buscarAvaliacao();
+
+            //Levar as informações para o GUIconsUsuario para mostrar na tela.
+            $_SESSION['avaliacoes'] = serialize($array);
+            header("location:../visao/guilistaavaliacao.php");
+            break;
         default:
             echo 'Deu erro no switch!';
             break;

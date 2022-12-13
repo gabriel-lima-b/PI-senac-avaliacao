@@ -1,5 +1,5 @@
 CREATE TABLE avaliacao (
-    idAvaliacao int,
+    idAvaliacao int not null auto_increment,
     nomeEquipe varchar(255),
     nomeProjeto varchar(255),
     titulo int,
@@ -9,6 +9,8 @@ CREATE TABLE avaliacao (
     apresentacao int,
     exibicao int,
     observacao varchar(255),
-    notaFinal int
+    notaFinal int,
+    PRIMARY KEY (idAvaliacao)
+
 );
 
