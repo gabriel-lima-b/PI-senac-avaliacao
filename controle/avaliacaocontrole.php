@@ -9,8 +9,7 @@ if (isset($_GET['op'])) {
     switch ($_GET['op']) {
 
         case 'salvar':
-            var_dump($_GET['op']);
-            var_dump($_POST['nomeEquipe']);
+
             if (
             isset($_POST['nomeEquipe']) &&
             isset($_POST['nomeProjeto']) &&
@@ -21,7 +20,7 @@ if (isset($_GET['op'])) {
             isset($_POST['apresentacao']) &&
             isset($_POST['exibicao']) &&
             isset($_POST['observacao'])) {
-                var_dump($_POST['nomeEquipe']);
+
 
                 $nomeEquipe = $_POST["nomeEquipe"];
                 $nomeProjeto = $_POST["nomeProjeto"];

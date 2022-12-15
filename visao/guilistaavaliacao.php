@@ -17,7 +17,7 @@
   </head>
   <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" style="border-bottom: 0.3rem solid rgb(247 125 12);">
-  <a class="navbar-brand" href="index.php">
+  <a class="navbar-brand" href="../index.html">
     <img src="../imagens/senac_logo_new.png" width="175px" height="65px" alt="">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,8 +27,11 @@
   <div class="collapse navbar-collapse ml-2" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="../index.php">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="../index.html">Home <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="../visao/guicadavaliacao.php">Cadastrar Avaliação</a>
+        </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Listar Avaliações</a>
       </li>
@@ -41,6 +44,7 @@ if (isset($_SESSION['avaliacoes'])) {
   include_once '../modelo/avaliacao.class.php';
   $avaliacoes = array();
   $avaliacoes = unserialize($_SESSION['avaliacoes']);
+  var_dump($avaliacoes);
 }
 
 foreach ($avaliacoes as $a) {
