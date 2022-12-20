@@ -45,8 +45,7 @@ if (isset($_GET['op'])) {
                 $avaliacao->calculaNotaFinal();
 
                 $aDAO = new AvaliacaoDao();
-
-                $aDAO->cadastrarAvaliacao($a);
+                $aDAO->cadastrarAvaliacao($avaliacao);
 
                 $_SESSION['msg'] = 'Avaliação Cadastrado!';
                 $_SESSION['avaliacao'] = serialize($avaliacao);
