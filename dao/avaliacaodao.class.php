@@ -1,5 +1,5 @@
 <?php
-include '../persistencia/ConexaoBanco.class.php';
+include_once '../persistencia/ConexaoBanco.class.php';
 
 class AvaliacaoDao
 {
@@ -33,9 +33,7 @@ class AvaliacaoDao
 
             //Encerrando a conexão cm o banco
             $this->conexao = null;
-
-        }
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             echo 'Erro ao cadastrar avaliação: ' . $e->getMessage();
         } //fecha o catch
     } //fecha o método cadastrarUsuario
@@ -43,14 +41,26 @@ class AvaliacaoDao
     public function buscarAvaliacao()
     {
         try {
-            $stat = $this->conexao->query("select * from avaliacao");
+            $stat = $this->conexao->query("select * from avaliacoes");
             $array = array();
             $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Avaliacao');
             $this->conexao = null;
             return $array;
-        }
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             echo 'Erro ao buscar avaliações!' . $e;
         } //fecha o catch
     } //fecha o método buscarUsuarios
+
+    public function getAvaliacaoById($id)
+    {
+        try {
+            $stat = $this->conexao->query("select from avaliacoes where id= " . $id);
+            $array = array();
+            $array = $stat->fetchAll(PDO::FETCH_CLASS, 'Avaliacao');
+            $this->conexao = null;
+            return $array;
+        } catch (PDOException $e) {
+            echo 'Erro ao buscar avaliações!' . $e;
+        } //fecha o catch
+    }
 }

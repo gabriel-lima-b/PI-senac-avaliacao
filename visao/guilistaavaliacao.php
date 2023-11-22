@@ -13,7 +13,7 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
   </head>
   <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" style="border-bottom: 0.3rem solid rgb(247 125 12);">
@@ -40,70 +40,97 @@
 </nav>
 
 <div container>
-<div class="row">
-      <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
-  <table class="table table-hover">
-    <thead>
-      <!-- Button trigger modal -->
-      <tr>
-        <th scope="col">Nome da Equipe</th>
-        <th scope="col">Nome do Projeto</th>
-        <th scope="col">Nota Final</th>
-        <th scope="col">Detalhes</th>
-      </tr>
-    </thead>
-    <tbody>
+  <div class="row">
+    <div class="col-10 mx-auto text-center form p-4">
+    <table class="table table-hover">
+      <thead>
+        <!-- Button trigger modal -->
+        <tr>
+        <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Data</th>
+          <th scope="col">Critérios</th>
+          <th scope="col">Notas</th>
+        </tr>
+      </thead>
+      <tbody>
     <?php
 if (isset($_SESSION['avaliacoes'])) {
   include_once '../modelo/avaliacao.class.php';
+  include_once '../modelo/avaliacoescriterios.class.php';
+  include_once '../modelo/criterio.class.php';
+  include_once '../dao/criteriosdao.class.php';
+  include_once '../dao/avaliacoescriteriosdao.class.php';
+  include_once '../dao/notasdao.class.php';
+  include_once '../dao/mediaPonderadaDAO.class.php';
   $avaliacoes = array();
   $avaliacoes = unserialize($_SESSION['avaliacoes']);
 }
-//TODO: modal ainda mostra apenas a primeira avaliacao 
 foreach ($avaliacoes as $a) {
   echo
     '<tr>
-        <td>' . $a->nomeEquipe . '</td>
-        <td>' . $a->nomeProjeto . '</td>
-        <td>' . $a->notaFinal . '</td>
+        <td>' . $a->id . '</td>
+        <td>' . $a->nome . '</td>
+        <td>' . $a->descricao . '</td>
+        <td>' . $a->data . '</td>
         <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Ver Detalhes
-</button></td>
-  </tr>';
+          Ver Critérios
+            </button>
+        </td>
+        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notasModal">
+          Ver Notas
+            </button>
+        </td>
+      </tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
+</div>';
 
-  echo '<!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  $avaliacoesCriteriosDAO = new AvaliacoesCriteriosDAO();
+  $criterios = array();
+  $criterios = $avaliacoesCriteriosDAO->getCriteriosByAvaliacaoId($a->id);
+
+  echo '<!-- Modal Criterios-->
+  <div class="modal  fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Critérios da avaliação</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item list-group-item-action text-left"><strong> Nome da Equipe: </strong> '
-    . $a->nomeEquipe . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Nome do Projeto: </strong>'
-    . $a->nomeProjeto . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Título: </strong>'
-    . $a->titulo . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Viabilidade: </strong>'
-    . $a->viabilidade . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Replicabilidade: </strong>'
-    . $a->replicabilidade . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Inovação: </strong>'
-    . $a->inovacao . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Apresentação: </strong>'
-    . $a->apresentacao . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Exibição: </strong>'
-    . $a->exibicao . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Nota Final: </strong>'
-    . $a->notaFinal . '</li>
-          <li class="list-group-item list-group-item-action text-left"><strong> Observação: </strong>'
-    . $a->observacao . '</li>
-        </ul> 
+          <div class="col-12 mx-auto text-center p-4">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Criterio</th>
+                  <th scope="col">Descrição</th>
+                  <th scope="col">Escala</th>
+                  <th scope="col">Peso</th>
+                </tr>
+              </thead>
+              <tbody>';
+              foreach ($criterios as $c) {
+                $criterioDAO = new CriteriosDAO();
+                $criterio = $criterioDAO->getCriterioById($c->id_criterio);
+                foreach($criterio as $criterio){
+                echo '<tr>
+                <td>' . $criterio->nome . '</td>
+                <td>' . $criterio->descricao . '</td>
+                <td>' . $criterio->escala . '</td>
+                <td>' . $c->peso_criterio . '</td>
+                </tr>';
+                }
+              }
+  echo '
+              </tbody>
+              </table>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -111,6 +138,121 @@ foreach ($avaliacoes as $a) {
       </div>
     </div>
   </div>';
+
+
+  echo '<!-- Modal Notas-->
+  <div class="modal  fade" id="notasModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Notas da ' . $a->nome.'</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-12 mx-auto text-center p-4">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Avaliador</th>
+                  <th scope="col">Projeto</th>
+                  <th scope="col">Nota final</th>
+                  <th scope="col">Detalhes</th>
+                </tr>
+              </thead>
+              <tbody>';
+
+              $notasDAO = new NotasDAO();
+              $listNotas = $notasDAO->getListNotasDTOByIdAvaliacao($a->id);
+
+              $mediaDAO = new MediaPonderadaDAO();
+              $listMediaPonderada = $mediaDAO->getMediasByIdAvaliacao($a->id);
+              foreach($listNotas as $key=>$nota){
+              echo '<tr>
+              <td>' . $nota->avaliador . '</td>
+              <td>' . $nota->projeto . '</td>
+              <td>' . $listMediaPonderada[$key]. '</td>
+              
+              <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNota'.$key . '">
+                   Detalhes
+                </button>
+              </td>
+              </tr>';
+                
+              }
+  echo '
+              </tbody>
+              </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>';
+  foreach($listNotas as $key=>$nota){
+  echo '<!-- Modal Notas-->
+  <div class="modal  fade" id="modalNota'.$key.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Notas do avaliador: ' . $nota->avaliador.'</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-12 mx-auto text-center p-4">
+          <div class="row">
+          <div class="col-3 mx-auto">
+          <h5>Avaliador: </h5> <p>'.$nota->avaliador.'</p>
+          </div>
+          <div class="col-3 mx-auto">
+          <h5>Projeto:</h5> <p>  '.$nota->projeto.'</p>
+          </div>
+          <div class="col-3 mx-auto">
+          <h5>Equipe: </h5> <p>'.$nota->equipe.' </p>
+          </div>  
+          <div class="col-3 mx-auto">
+          <h5>Média final: </h5> <p>'.$listMediaPonderada[$key].' </p>
+          </div>  
+          </div>
+          <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Critério</th>
+                  <th scope="col">Peso</th>
+                  <th scope="col">Nota</th>
+                </tr>
+              </thead>
+              <tbody>';
+             
+             $criterioDAO = new CriteriosDAO();
+             $listaCriteriosComNotas = $criterioDAO->getNotasCriterioByIdAvaliacao($nota->avaliador);
+              
+              foreach($listaCriteriosComNotas as $c){
+              echo '<tr>
+              <td>' . $c->criterio . '</td>
+              <td>' . $c->peso . '</td>
+              <td>' . $c->nota . '</td>
+              </tr>';
+                
+            }
+  echo '
+              </tbody>
+              </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>';
+          }
 }
 ?>
     </tbody>

@@ -11,6 +11,4 @@ CREATE TABLE avaliacao (
     observacao varchar(255),
     notaFinal int,
     PRIMARY KEY (idAvaliacao)
-
 );
-
