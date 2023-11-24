@@ -55,4 +55,21 @@ class CriteriosDAO
         } //fecha o catch
     }
 
+    function getCriteriosByAvaliacao($idAvaliacao){
+        try {
+            $stat = $this->conexao->query("select criterios.id, criterios.nome, criterios.descricao 
+                from criterios 
+                inner join avaliacoes_criterios 
+                  on criterios.id = avaliacoes_criterios.id_criterio
+                where avaliacoes_criterios.id_avaliacao = " . $idAvaliacao."
+                order by criterios.id");
+            $array = array();
+            $array = $stat->fetchAll(PDO::FETCH_CLASS);
+            $this->conexao = null;
+            return $array;
+        } catch (PDOException $e) {
+            echo 'Erro ao buscar Criterios por id Avaliacao!' . $e;
+        } //fecha o catch
+    }
+
 }

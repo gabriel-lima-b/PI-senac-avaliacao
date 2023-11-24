@@ -3,6 +3,7 @@ session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+  
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,7 +15,7 @@ session_start();
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
   </head>
   <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top" style="border-bottom: 0.3rem solid rgb(247 125 12);">
@@ -52,149 +53,82 @@ session_start();
         <div class="form-row mb-3">
           <div class="col">
             <label for="nomeEquipe"><h5>Nome equipe:</h5></label>
-            <input type="text" class="form-control" name="nomeEquipe" id="nomeEquipe" placeholder="Nome Equipe">
-          </div>
-    
-          <div class="col">
-            <label for="nomeProjeto"><h5>Nome projeto:</h5></label>
-            <input type="text" class="form-control" name="nomeProjeto" id="nomeProjeto" placeholder="Nome Projeto">
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label
-            for="titulo"
-            data-toggle="popover"
-            data-trigger="focus"
-            data-content="0 a 1"
-          >
-            <h5>Título:</h5> 
-            <p class="text-justify ml-3">
-              O título contempla a proposta do projeto.
-            </p>
-          </label>
-          <select class="titulo form-control " name="titulo" id='titulo'>
+            <select class="form-control " name="equipe" id='equipe' placeholder= 'Selecione a equipe' onChange='changeProjectName()'>
 <?php
-for ($index = 0; $index <= 10; $index++) {
-  echo "<option value=" . $index . '> ' . $index . ' </option>';
+include_once '../dao/equipesdao.class.php';
+include_once '../dao/projetosdao.class.php';
+$projetosDao = new ProjetosDAO();
+$equipesDao = new EquipesDAO();
+//TODO: implementar o cadastro de notas para diferentes avaliacoes;
+$listaNomesEquipes = $equipesDao->getNomeEquipes(1);
+
+echo "<option value=-1>Selecione a equipe</option>";
+
+foreach ($listaNomesEquipes as $equipe) {
+  echo "<option value=" .$equipe->id . '> ' . $equipe->nome . ' </option>';
 }
+
+echo "  <script>
+const mapNomeProjeto = new Map();
+mapNomeProjeto.set(-1, 'Nome Projeto');
+";
+$listaProjetos = $projetosDao->getProjetos();
+foreach($listaProjetos as $projeto){
+  echo "
+  mapNomeProjeto.set(". $projeto->id . ",'". $projeto->nome ."');
+  ";
+
+}
+echo "
+function changeProjectName(){
+  var textoNomeProjeto = document.getElementById('nomeProjeto');
+  var selectedOption = $('#equipe').val();
+  textoNomeProjeto.value = mapNomeProjeto.get(Number(selectedOption));
+}
+</script>";
 ?>
           </select>
-        </div>
+          </div>
+    
 
-        <div class="form-group">
-            <label
-            for="viabilidade"
-            data-toggle="popover"
-            data-trigger="focus"
-            data-content="0 a 1"
+          <div class="col">
+            <label for="nomeProjeto"><h5>Nome projeto:</h5></label>
+            <input type="text" class="form-control" name="nomeProjeto" id="nomeProjeto" placeholder="Nome Projeto" disabled onload="changeProjectName()">
+          </div>
+        </div>
+  
+<?php
+include_once '../dao/criteriosdao.class.php';
+$criteriosDao = new CriteriosDAO();
+$listCriterios = $criteriosDao->getCriteriosByAvaliacao(1);
+
+foreach ($listCriterios as $criterio){
+
+  echo"
+  <div class='form-group'>
+          <label
+            for='form-" . $criterio->id . "'
+            data-toggle='popover'
+            data-trigger='focus'
+            data-content='0 a 1'
           >
-            <h5>Viabilidade da Solução:</h5> 
-                <p class="text-justify ml-3">
-                O projeto apresenta viabilidade para a necessidade apresentada pela empresa.
-                </p>
-            </label>
-            <select class="viabilidade form-control " name="viabilidade" id='viabilidade'>
-<?php
+            <h5>" . $criterio->nome . "</h5> 
+            <p class='text-justify ml-3'>
+              ". $criterio->descricao ."
+            </p>
+          </label>
+          <select class='form-control' name='form-" . $criterio->id . "' id='form-" . $criterio->id . "'>
+  ";
 for ($index = 0; $index <= 10; $index++) {
   echo "<option value=" . $index . '> ' . $index . ' </option>';
 }
-?>
-            </select>
+echo "
+</select>
         </div>
-
-        <!-- Replicabilidade -->
-        <div class="form-group">
-
-<label
-  for="replicabilidade"
-  data-toggle="popover"
-  data-trigger="focus"
-  data-content="0 a 1"
->
-<h5>Replicabilidade (Escalabilidade): </h5>
-  <p class="text-justify ml-3">
-  Capacidade do projeto de ser replicado em diferentes áreas/regiões.
-  </p>
-</label>
-<select class="replicabilidade form-control " name="replicabilidade" id='replicabilidade'>
-<?php
-for ($index = 0; $index <= 10; $index++) {
-  echo "<option value=" . $index . '> ' . $index . ' </option>';
+";
+          
 }
 ?>
-  </select>
-</div>
-
-<!-- Inovação -->
-<div class="form-group">
-
-<label
-  for="inovacao"
-  data-toggle="popover"
-  data-trigger="focus"
-  data-content="0 a 1"
->
-  <h5>Inovação</h5>
-  <p class="text-justify ml-3">
-  "Inovação é algo diferente que exerce impacto", ou seja, o projeto deve consistir em algo diferente/novo, ainda não incorporado aos processos gerenciais, produtos ou serviços, e que gerará resultados para os clientes, para a organização ou para as partes interessadas.
-  </p>
-</label>
-<select class="inovacao form-control " name="inovacao" id='inovacao'>
-<?php
-for ($index = 0; $index <= 10; $index++) {
-  echo "<option value=" . $index . '> ' . $index . ' </option>';
-}
-?>
-  </select>
-</div>
-<!-- Apresentação do projeto -->
-<div class="form-group">
-
-<label
-  for="apresentacao"
-  data-toggle="popover"
-  data-trigger="focus"
-  data-content="0 a 1"
->
-<h5>Apresentação do Projeto - Pitch</h5>
-  <p class="text-justify ml-3">
-  Apresenta dentro do tempo estipulado e oferece uma visão geral do projeto, abordando</br>
-   (a) necessidade, </br>
-    (b) solução encontrada,</br>
-     (c) e inovação do projeto.
-  </p>
-</label>
-<select class="apresentacao form-control " name="apresentacao" id='apresentacao'>
-<?php
-for ($index = 0; $index <= 10; $index++) {
-  echo "<option value=" . $index . '> ' . $index . ' </option>';
-}
-?>
-  </select>
-</div>
-<!-- Exibição visual e apresentação oral -->
-<div class="form-group">
-
-<label
-  for="exibicao"
-  data-toggle="popover"
-  data-trigger="focus"
-  data-content="0 a 1"
->
-<h5>Exibição visual e apresentação oral</h5>
-    <p class="text-justify ml-3">
-  A exibição visual deverá ser clara e objetiva, salientando os dados mais importantes para possibilitar o perfeito entendimento do projeto, utilizando preferencialmente recursos de informática.
-    </p>
-</label>
-<select class="exibicao form-control " name="exibicao" id='exibicao'>
-<?php
-for ($index = 0; $index <= 10; $index++) {
-  echo "<option value=" . $index . '> ' . $index . ' </option>';
-}
-?>
-  </select>
-</div>
 
 <div class="form-group">
     <label for="observacao"><h5>Anotações / Observações</h5></label>
@@ -229,4 +163,6 @@ for ($index = 0; $index <= 10; $index++) {
       trigger: "focus",
     });
   </script>
+
+
 </html>
