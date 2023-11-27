@@ -25,7 +25,7 @@ class CriteriosDAO
         } //fecha o catch
     }
 
-    public function getNotasCriterioByIdAvaliacao($id)
+    public function getNotasCriterioByIdAvaliador($dsAvaliador, $dsProjeto)
     {
         try {
             $stat = $this->conexao->query("
@@ -43,7 +43,9 @@ class CriteriosDAO
             )
             INNER JOIN avaliacoes_criterios ac ON ac.id_criterio = criterios.id
         WHERE
-            notas.id_avaliador = (select id from avaliadores where nome = '".$id ."')
+            notas.id_avaliador = (select id from avaliadores where nome = '".$dsAvaliador ."')
+        AND
+            notas.id_projeto = (select id from projetos where nome = '".$dsProjeto ."')
         ORDER BY
             notas.id_avaliador,criterios.id;");
             $array = array();

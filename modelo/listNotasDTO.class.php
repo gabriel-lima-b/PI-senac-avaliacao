@@ -7,6 +7,8 @@ class ListNotasDTO
     private $equipe;
     private $criterio;
     private $nota;
+    private $id_avaliador;
+    private $id_projeto;
     
     public function __construct()
     {

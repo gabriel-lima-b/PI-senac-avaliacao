@@ -165,14 +165,15 @@ foreach ($avaliacoes as $a) {
 
               $notasDAO = new NotasDAO();
               $listNotas = $notasDAO->getListNotasDTOByIdAvaliacao($a->id);
-
               $mediaDAO = new MediaPonderadaDAO();
-              $listMediaPonderada = $mediaDAO->getMediasByIdAvaliacao($a->id);
+
               foreach($listNotas as $key=>$nota){
+                $listMedias = $mediaDAO->getMediasByIdAvaliacao($a->id,$nota->id_avaliador,$nota->id_projeto);
+                
               echo '<tr>
               <td>' . $nota->avaliador . '</td>
               <td>' . $nota->projeto . '</td>
-              <td>' . $listMediaPonderada[$key]. '</td>
+              <td>' . $listMedias[0] .'</td>
               
               <td>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNota'.$key . '">
@@ -194,6 +195,7 @@ foreach ($avaliacoes as $a) {
     </div>
   </div>';
   foreach($listNotas as $key=>$nota){
+    $listMedias = $mediaDAO->getMediasByIdAvaliacao($a->id,$nota->id_avaliador,$nota->id_projeto);
   echo '<!-- Modal Notas-->
   <div class="modal  fade" id="modalNota'.$key.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -217,7 +219,7 @@ foreach ($avaliacoes as $a) {
           <h5>Equipe: </h5> <p>'.$nota->equipe.' </p>
           </div>  
           <div class="col-3 mx-auto">
-          <h5>Média final: </h5> <p>'.$listMediaPonderada[$key].' </p>
+          <h5>Média final: </h5> <p>'. $listMedias[0] . ' </p>
           </div>  
           </div>
           <table class="table table-hover">
@@ -231,7 +233,7 @@ foreach ($avaliacoes as $a) {
               <tbody>';
              
              $criterioDAO = new CriteriosDAO();
-             $listaCriteriosComNotas = $criterioDAO->getNotasCriterioByIdAvaliacao($nota->avaliador);
+             $listaCriteriosComNotas = $criterioDAO->getNotasCriterioByIdAvaliador($nota->avaliador, $nota->projeto);
               
               foreach($listaCriteriosComNotas as $c){
               echo '<tr>

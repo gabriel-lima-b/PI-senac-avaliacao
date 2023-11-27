@@ -17,15 +17,11 @@ session_start();
 		<h2 class="title">Pagina Resposta</h2>
 		<p>
 			<?php
-if (isset($_SESSION['msg']) &&
-isset($_SESSION['avaliacao'])) {
+if (isset($_SESSION['msg'])) {
 
   include '../modelo/avaliacao.class.php';
-  $a = new Avaliacao();
-  $a = unserialize($_SESSION['avaliacao']);
 
-  echo '<br>' . $_SESSION['msg'] .
-    '<br> Dados: ' . $a;
+  echo '<br>' . $_SESSION['msg'];
 } //fecha o if
 ?>
 		</p>

@@ -3,9 +3,9 @@ class Notas
 {
 
     private $id;
-    private $id_criterio;
-    private $id_avaliador;
-    private $id_projeto;
+    private $criterio;
+    private $avaliador;
+    private $projeto;
     private $nota;
     
     public function __construct()
@@ -28,6 +28,12 @@ class Notas
         $this->$atrib = $valor;
     }
 
+    public function __toString(){
+        return '<br> Criterio: ' . $this->criterio .
+                '<br> Avaliador: ' . $this->avaliador .
+                 '<br> projeto: ' . $this->projeto .
+                 '<br> Nota: '. $this->nota;
+    }
     
 
 }

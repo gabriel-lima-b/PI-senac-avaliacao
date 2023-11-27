@@ -93,7 +93,7 @@ function changeProjectName(){
 
           <div class="col">
             <label for="nomeProjeto"><h5>Nome projeto:</h5></label>
-            <input type="text" class="form-control" name="nomeProjeto" id="nomeProjeto" placeholder="Nome Projeto" disabled onload="changeProjectName()">
+            <input type="text" class="form-control" name="nomeProjeto" id="nomeProjeto" placeholder="Nome Projeto" readonly="readonly" onload="changeProjectName()">
           </div>
         </div>
   

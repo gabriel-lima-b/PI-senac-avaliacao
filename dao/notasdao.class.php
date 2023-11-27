@@ -10,7 +10,7 @@ class NotasDAO
     public function __construct()
     {
         $this->conexao = ConexaoBanco::getInstancia();
-    } //fecha o construtor
+    } 
 
     public function getListNotasDTOByIdAvaliacao($id)
     {
@@ -18,7 +18,9 @@ class NotasDAO
             $stat = $this->conexao->query("
         SELECT
            DISTINCT avaliadores.nome as avaliador,
-            projetos.nome as projeto,
+           notas.id_avaliador,
+           notas.id_projeto, 
+           projetos.nome as projeto,
             equipes.nome as equipe
         FROM
                 (
@@ -43,5 +45,31 @@ class NotasDAO
         } //fecha o catch
     }
 
+
+    public function cadastrarNota($nota)
+    {
+        if($this->conexao == null){
+            $this->conexao = ConexaoBanco::getInstancia();
+        }
+        try {
+            $stat = $this->conexao->prepare("
+            insert into notas (ID_AVALIADOR, ID_CRITERIO, ID_PROJETO, NOTA)
+            values (:avaliador, :criterio,
+            (
+              select id from projetos where nome = :projeto  
+            ), :nota)");
+
+            $stat->bindValue(":avaliador", $nota->avaliador, PDO::PARAM_INT);
+            $stat->bindValue(":criterio", $nota->criterio, PDO::PARAM_INT);
+            $stat->bindValue(":projeto", $nota->projeto, PDO::PARAM_STR);
+            $stat->bindValue(":nota", $nota->nota, PDO::PARAM_INT);
+            $stat->execute();
+
+
+            $this->conexao = null;
+        } catch (PDOException $e) {
+            echo 'Erro ao cadastrar nota: ' . $e->getMessage();
+        } 
+    }
 }
 
